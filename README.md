@@ -9,3 +9,6 @@ I am making the plugin available to anybody who wants to develop it further so t
 
 This version of the plugin is not available on the WordPress repository and is not available for general consumption. It can only be configured manually by installing it and then manually editing the PHP file to specify which CPT it should be applied to.
 
+You can read more about this plugin here: https://sitedesign.vaughanprint.com/block-editor-for-data-entry/
+
+Thanks to Brad Vincent for the get_current_post_type() which is used to specify the post/s type. https://gist.github.com/bradvin/1980309
