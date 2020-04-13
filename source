@@ -1,0 +1,113 @@
+<?php
+/**
+ * Plugin Name: Block Editor for Data Entry
+ * Plugin URI: https://sitedesign.vaughanprint.com/block-editor-for-data-entry/
+ * Description: A simple plugin that Stlyes the Block editor layout so it is better suited to data entry
+ * Version: 1.0.0
+ * Author: Stephen Vaughan
+ * Author URI: https://sitedesign.vaughanprint.com/block-editor-for-data-entry/
+ * License: GPL2
+ */
+ 
+// Post type dashboard customisation:
+
+function remove_content_editor_for_CPT() {
+  
+  if ( get_current_post_type() == '_Post-type-Single-here_' ) {
+       echo '<style>
+
+       .edit-post-layout__content {
+          background: #bfc0c5;
+        }
+
+       .edit-post-visual-editor.editor-styles-wrapper {
+          background-color: #bfc0c5;
+          max-height: 80px;
+        }
+
+        .edit-post-layout .block-editor-editor-skeleton__content {
+            background-color: #bfc0c5;
+        }
+
+        .editor-post-title {
+          margin-top: 50px;
+          padding-left: 0;
+        }
+
+        .editor-post-title__block .editor-post-title__input {
+          padding-left: 0;
+        }
+
+        .editor-post-title__input:hover {
+          border-color: transparent !important;
+        }
+
+        .editor-styles-wrapper .wp-block {
+          margin-left: 0 !important;
+          margin-right: 0 !important;
+        }
+
+        .block-editor-block-list__layout {
+            display: none;
+        }
+
+        .edit-post-layout__metaboxes {
+            border: none !important;
+        }
+
+        .edit-post-visual-editor.editor-styles-wrapper {
+          margin-top: -20px;
+          padding-left: 50px !important;
+          padding-right: 50px !important;
+        }
+        
+        #wpcontent,
+        #wpfooter {
+          background-color: #bfc0c5;
+        }
+  
+        .postbox {
+          margin-bottom: 20px !important;
+          border-radius: 6px;
+          -webkit-box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+          -moz-box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-post-layout__metaboxes:not(:empty) {
+          margin-top: 60px;
+        }
+    
+    </style>';
+  }
+
+}
+
+add_action('admin_head', 'remove_content_editor_for_CPT');
+
+
+function get_current_post_type() {
+  global $post, $typenow, $current_screen;
+  //we have a post so we can just get the post type from that
+  if ( $post && $post->post_type ) {
+    return $post->post_type;
+  }
+  //check the global $typenow - set in admin.php
+  elseif ( $typenow ) {
+    return $typenow;
+  }
+  //check the global $current_screen object - set in sceen.php
+  elseif ( $current_screen && $current_screen->post_type ) {
+    return $current_screen->post_type;
+  }
+  //check the post_type querystring
+  elseif ( isset( $_REQUEST['post_type'] ) ) {
+    return sanitize_key( $_REQUEST['post_type'] );
+  }
+  //lastly check if post ID is in query string
+  elseif ( isset( $_REQUEST['post'] ) ) {
+    return get_post_type( $_REQUEST['post'] );
+  }
+  //we do not know the post type!
+  return null;
+}
